@@ -203,24 +203,6 @@ cd ~/SR-IMX93/yocto
 ls
 ```
 
-### 开发主机工具版本确定
-
-在Ubuntu 开发主机上安装指定版本的 tar 工具。
-
-```bash
-sudo apt install tar=1.34+dfsg-1build3
-dpkg -l tar 
-```
-
-预期结果
-```bash
-ii  tar            1.34+dfsg-1build3 amd64        GNU version of the tar archiving utility
-```
-> [!TIP]
->
-> 若使用 Docker 容器隔离构建环境，可跳过本步骤；但容器基础镜像若同为 Ubuntu 22.04，容器内仍需固定 tar 版本。
-
-
 > [!NOTE]
 >
 > 目录中应包含 `sources`、`setup-environment` 等文件和目录。
@@ -278,6 +260,25 @@ ii  tar            1.34+dfsg-1build3 amd64        GNU version of the tar archivi
 >
 > `build_srg093xw/` 是 SRG093XW 平台的 Yocto 编译目录，在初始化编译环境后生成，首次解压 SDK 时不存在。
 
+
+### 开发主机工具版本确定
+
+在Ubuntu 开发主机上安装指定版本的 tar 工具。
+
+```bash
+sudo apt install tar=1.34+dfsg-1build3
+dpkg -l tar 
+```
+
+预期结果
+```bash
+ii  tar            1.34+dfsg-1build3 amd64        GNU version of the tar archiving utility
+```
+> [!TIP]
+>
+> 若使用 Docker 容器隔离构建环境，可跳过本步骤；但容器基础镜像若同为 Ubuntu 22.04，容器内仍需固定 tar 版本。
+
+
 ## 镜像编译
 
 > [!NOTE]
@@ -314,7 +315,7 @@ MACHINE="quectel-srg093xw"
 **步骤 4：编译系统镜像**
 
 ```bash
-./build.sh  SRG093X -v SRG093X_V01 -d build_srg093x 
+./build.sh SRG093XW -v SRG093XW_V01 -d build_srg093xw  
 ```
 
 > [!TIP]
@@ -337,7 +338,7 @@ MACHINE="quectel-srg093xw"
 ls -lh tmp/deploy/images/quectel-srg093xw/
 ```
 
-烧录镜像、烧录工具`uuu.exe`以及烧录脚本`uuu.auto`会被自动打包到镜像目录下。以SRG093X-W为例，这些文件如下图所示。
+编译完成后，会将 tmp/deploy/images/quectel-srg093xw/下的烧录镜像，连同烧录工具`uuu.exe`和烧录脚本`uuu.auto`自动打包到目录`~SR-IMX93/yocto/images/quectel-srg093xw`下，后续烧录文件直接在这获取。以SRG093X-W为例，打包文件如下图所示。
 
 ![1790069385042](media/1790069385042.png)
 
@@ -367,7 +368,7 @@ ls -lh tmp/deploy/images/quectel-srg093xw/
 
 **步骤 3：准备烧录文件**
 
-将 `yocto/images/` 镜像目录下的烧录镜像、`uuu.exe` 和 `uuu.auto` 复制至 Windows PC 的同一目录。
+将镜像目录`~SR-IMX93/yocto/images/quectel-srg093xw`下的烧录镜像、`uuu.exe` 和 `uuu.auto` 复制至 Windows PC 的同一目录。
 
 **步骤 4：执行烧录**
 
